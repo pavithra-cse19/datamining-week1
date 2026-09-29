@@ -1,0 +1,75 @@
+# WEKA Data Mining Experiment - Python Equivalent
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# -------------------------------------------------
+# 1. Load Iris Dataset
+# -------------------------------------------------
+iris = load_iris()
+
+df = pd.DataFrame(
+    iris.data,
+    columns=[
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+    ]
+)
+
+df["class"] = [iris.target_names[i] for i in iris.target]
+
+# -------------------------------------------------
+# 2. Display Dataset Information
+# -------------------------------------------------
+print("Dataset: Iris")
+print("Number of Instances:", len(df))
+print("Number of Attributes:", len(df.columns))
+
+print("\nAttribute Names and Types:")
+print(df.dtypes)
+
+print("\nClass Attribute: class")
+
+# -------------------------------------------------
+# 3. Class Distribution
+# -------------------------------------------------
+print("\nClass Distribution:")
+print(df["class"].value_counts())
+
+# -------------------------------------------------
+# 4. Histogram of Class Attribute
+# -------------------------------------------------
+df["class"].value_counts().plot(kind="bar")
+
+plt.xlabel("Class")
+plt.ylabel("Frequency")
+plt.title("Iris Class Distribution")
+plt.show()
+
+# -------------------------------------------------
+# 5. Scatter Plot
+# -------------------------------------------------
+plt.figure(figsize=(8, 6))
+
+for class_name in df["class"].unique():
+    subset = df[df["class"] == class_name]
+    plt.scatter(
+        subset["petal_length"],
+        subset["petal_width"],
+        label=class_name
+    )
+
+plt.xlabel("Petal Length")
+plt.ylabel("Petal Width")
+plt.title("Iris Dataset Scatter Plot")
+plt.legend()
+plt.show()
+
+# -------------------------------------------------
+# 6. Display First 10 Records
+# -------------------------------------------------
+print("\nFirst 10 Records:")
+print(df.head(10))
